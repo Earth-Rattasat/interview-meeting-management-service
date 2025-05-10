@@ -18,6 +18,7 @@ import { MeetingModule } from './modules/meeting/meeting.module';
       password: process.env.DATABASE_PASSWORD,
       database: process.env.DATABASE_NAME,
       entities: [__dirname + '/entities/*.entity{.ts,.js}'],
+      subscribers: [__dirname + '/subscriber/*.subscriber{.ts,.js}'],
       synchronize: true,
       logging: true,
     }),

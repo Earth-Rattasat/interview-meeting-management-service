@@ -3,6 +3,7 @@ import {
   Controller,
   Get,
   Param,
+  Patch,
   Post,
   Query,
   UseGuards,
@@ -18,6 +19,7 @@ import {
   ListResponseDto,
   SingleResponseDto,
 } from 'src/utils/base-response-dto';
+import { UpdateMeetingDto } from './dto/update-meeting.dto';
 
 @UseGuards(UserGuard)
 @ApiTags('Meeting')
@@ -44,8 +46,8 @@ export class MeetingController {
     const [data, totalItems] = await this.meetingService.getMeetings(payload);
     return {
       data,
-      page: +payload.page,
-      pageSize: +payload.pageSize,
+      page: Number(payload.page ?? 1),
+      pageSize: Number(payload.pageSize ?? 10),
       totalItems,
     };
   }
@@ -56,6 +58,18 @@ export class MeetingController {
     @Param('id') id: string,
   ): Promise<SingleResponseDto<Meeting>> {
     const data = await this.meetingService.getMeetingById(id);
+    return {
+      data,
+    };
+  }
+
+  @ApiParam({ name: 'id', required: true, type: String })
+  @Patch(':id')
+  async updateMeeting(
+    @Param('id') id: string,
+    @Body() payload: UpdateMeetingDto,
+  ): Promise<SingleResponseDto<Meeting>> {
+    const data = await this.meetingService.updateMeeting(id, payload);
     return {
       data,
     };

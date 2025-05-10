@@ -5,6 +5,7 @@ import { Repository } from 'typeorm';
 import { CreateMeetingDto } from './dto/create-meeting.dto';
 import { User } from 'src/entities/user.entity';
 import { GetMeetingsDto } from './dto/get-meeting.dto';
+import { UpdateMeetingDto } from './dto/update-meeting.dto';
 
 @Injectable()
 export class MeetingService {
@@ -25,6 +26,7 @@ export class MeetingService {
     return this.meetingRepository
       .createQueryBuilder('meeting')
       .leftJoinAndSelect('meeting.creator', 'creator')
+      .where('meeting.archived = false')
       .orderBy('meeting.createdAt', 'DESC')
       .skip((page - 1) * pageSize)
       .take(pageSize)
@@ -38,6 +40,19 @@ export class MeetingService {
       .leftJoinAndSelect('meeting.comments', 'comment')
       .leftJoinAndSelect('meeting.changeLogs', 'changeLog')
       .where('meeting.id = :id', { id })
+      .addOrderBy('comment.createdAt', 'DESC')
+      .addOrderBy('changeLog.createdAt', 'DESC')
       .getOne();
+  }
+
+  async updateMeeting(id: string, payload: UpdateMeetingDto) {
+    const { archive, ...rest } = payload;
+
+    await this.meetingRepository.update(id, {
+      ...rest,
+      archived: archive,
+    });
+
+    return this.meetingRepository.findOneByOrFail({ id });
   }
 }

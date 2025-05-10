@@ -28,7 +28,7 @@ export class Meeting extends Base {
   @Column({ nullable: true })
   description: string;
 
-  @Column({ default: MeetingStatus.Todo, enum: MeetingStatus })
+  @Column({ default: MeetingStatus.Todo, enum: MeetingStatus, type: 'enum' })
   status: MeetingStatus;
 
   @Column({ name: 'created_by' })
