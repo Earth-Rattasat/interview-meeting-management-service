@@ -22,7 +22,7 @@ export class ChangeLog extends Base {
   @Column({ nullable: true })
   description: string;
 
-  @Column({ default: MeetingStatus.Todo, enum: MeetingStatus })
+  @Column({ enum: MeetingStatus })
   status: MeetingStatus;
 
   @ManyToOne(() => Meeting)

@@ -20,6 +20,11 @@ export default class UserGuard implements CanActivate {
         };
       }
     >();
+
+    if (!request.headers.authorization) {
+      throw new UnauthorizedException();
+    }
+
     const token = request.headers.authorization.split(' ')?.[1];
 
     if (!token) {

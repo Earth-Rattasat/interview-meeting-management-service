@@ -3,10 +3,13 @@ import {
   Entity,
   JoinColumn,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { Base } from './base.entity';
 import { User } from './user.entity';
+import { Comment } from './comment.entity';
+import { ChangeLog } from './change-log.entity';
 
 export enum MeetingStatus {
   Todo = 'TODO',
@@ -37,4 +40,10 @@ export class Meeting extends Base {
   @ManyToOne(() => User)
   @JoinColumn([{ referencedColumnName: 'id', name: 'created_by' }])
   creator: User;
+
+  @OneToMany(() => Comment, (comment) => comment.meeting)
+  comments: Comment[];
+
+  @OneToMany(() => ChangeLog, (changeLog) => changeLog.meeting)
+  changeLogs: ChangeLog[];
 }

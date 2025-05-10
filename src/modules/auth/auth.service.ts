@@ -18,6 +18,11 @@ interface JWTPayload {
   email: string;
 }
 
+export interface AuthTokens {
+  accessToken: string;
+  refreshToken: string;
+}
+
 @Injectable()
 export class AuthService {
   constructor(
@@ -28,7 +33,7 @@ export class AuthService {
     private readonly jwtConfiguration: ConfigType<typeof jwtConfig>,
   ) {}
 
-  async login(payload: LoginDto) {
+  async login(payload: LoginDto): Promise<AuthTokens> {
     try {
       const user = await this.userService.getUserByEmail(payload.email);
       if (!user) {
@@ -49,7 +54,7 @@ export class AuthService {
     }
   }
 
-  async refreshTokens(refreshTokenDto: RefreshTokenDto) {
+  async refreshTokens(refreshTokenDto: RefreshTokenDto): Promise<AuthTokens> {
     try {
       const { id } = await this.jwtService.verifyAsync<Pick<JWTPayload, 'id'>>(
         refreshTokenDto.refreshToken,
