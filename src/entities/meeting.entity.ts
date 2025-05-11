@@ -31,15 +31,15 @@ export class Meeting extends Base {
   @Column({ default: MeetingStatus.Todo, enum: MeetingStatus, type: 'enum' })
   status: MeetingStatus;
 
-  @Column({ name: 'created_by' })
-  createdBy: string;
+  @Column({ name: 'created_by_id' })
+  createdById: string;
 
   @Column({ default: false })
   archived: boolean;
 
   @ManyToOne(() => User)
-  @JoinColumn([{ referencedColumnName: 'id', name: 'created_by' }])
-  creator: User;
+  @JoinColumn([{ referencedColumnName: 'id', name: 'created_by_id' }])
+  createdBy: User;
 
   @OneToMany(() => Comment, (comment) => comment.meeting)
   comments: Comment[];

@@ -17,7 +17,7 @@ export class MeetingService {
   async createMeeting(payload: CreateMeetingDto, user: User) {
     return this.meetingRepository.save({
       ...payload,
-      createdBy: user.id,
+      createdById: user.id,
     });
   }
 
@@ -25,9 +25,9 @@ export class MeetingService {
     const { page = 1, pageSize = 10 } = payload;
     return this.meetingRepository
       .createQueryBuilder('meeting')
-      .leftJoinAndSelect('meeting.creator', 'creator')
+      .leftJoinAndSelect('meeting.createdBy', 'createdBy')
       .where('meeting.archived = false')
-      .orderBy('meeting.createdAt', 'DESC')
+      .orderBy('meeting.createdAt', 'ASC')
       .skip((page - 1) * pageSize)
       .take(pageSize)
       .getManyAndCount();
@@ -36,7 +36,7 @@ export class MeetingService {
   async getMeetingById(id: string): Promise<Meeting> {
     return this.meetingRepository
       .createQueryBuilder('meeting')
-      .leftJoinAndSelect('meeting.creator', 'creator')
+      .leftJoinAndSelect('meeting.createdBy', 'createdBy')
       .leftJoinAndSelect('meeting.comments', 'comment')
       .leftJoinAndSelect('meeting.changeLogs', 'changeLog')
       .where('meeting.id = :id', { id })

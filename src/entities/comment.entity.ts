@@ -17,8 +17,8 @@ export class Comment extends Base {
   @Column({ name: 'meeting_id' })
   meetingId: string;
 
-  @Column({ name: 'created_by' })
-  createdBy: string;
+  @Column({ name: 'created_by_id' })
+  createdById: string;
 
   @Column()
   description: string;
@@ -28,6 +28,6 @@ export class Comment extends Base {
   meeting: Meeting;
 
   @ManyToOne(() => User)
-  @JoinColumn([{ referencedColumnName: 'id', name: 'created_by' }])
-  creator: User;
+  @JoinColumn([{ referencedColumnName: 'id', name: 'created_by_id' }])
+  createdBy: User;
 }

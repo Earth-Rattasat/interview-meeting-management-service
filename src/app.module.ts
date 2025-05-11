@@ -6,6 +6,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthModule } from './modules/auth/auth.module';
 import { UserModule } from './modules/user/user.module';
 import { MeetingModule } from './modules/meeting/meeting.module';
+import { CommentModule } from './modules/comment/comment.module';
 
 @Module({
   imports: [
@@ -25,6 +26,7 @@ import { MeetingModule } from './modules/meeting/meeting.module';
     AuthModule,
     UserModule,
     MeetingModule,
+    CommentModule,
   ],
   controllers: [AppController],
   providers: [AppService],
