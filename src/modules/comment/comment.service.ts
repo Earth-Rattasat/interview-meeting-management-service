@@ -24,7 +24,8 @@ export class CommentService {
   }
 
   async updateComment(id: string, payload: UpdateCommentDto): Promise<Comment> {
-    await this.commentRepository.update(id, {
+    await this.commentRepository.save({
+      id,
       description: payload.description,
     });
 

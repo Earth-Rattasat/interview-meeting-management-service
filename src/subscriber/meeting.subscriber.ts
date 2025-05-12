@@ -16,10 +16,16 @@ export class MeetingSubscriber implements EntitySubscriberInterface<Meeting> {
 
   async afterInsert(event: InsertEvent<Meeting>): Promise<void> {
     const meeting = event.entity;
+    console.log(event.entity);
     await this.createChangeLog(event.manager, meeting);
   }
 
   async afterUpdate(event: UpdateEvent<Meeting>): Promise<void> {
+    console.log(
+      '🚀 ~ MeetingSubscriber ~ afterUpdate ~ event.entity:',
+      event.entity,
+    );
+
     const meeting = await event.manager.findOne(Meeting, {
       where: {
         id: event.entity.id,

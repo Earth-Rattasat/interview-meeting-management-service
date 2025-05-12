@@ -30,6 +30,8 @@ Create a `.env` file in the root folder with the following content:
 APP_PORT=3000
 
 # Database
+# ⚠️ If running with Docker, use 'postgres' as host (matches the docker-compose service name)
+# ⚠️ If running locally without Docker, use '127.0.0.1' and make sure PostgreSQL is running
 DATABASE_HOST=postgres
 DATABASE_PORT=5432
 DATABASE_USER=user
@@ -51,6 +53,46 @@ docker-compose up --build
 ```
 
 > The service will be available at: [http://localhost:3000](http://localhost:3000)
+
+---
+
+### 🧰 Useful Scripts (optional for local dev)
+
+```bash
+# Install dependencies
+yarn
+
+# Run dev mode (if not using docker)
+yarn start:dev
+
+# Format code
+yarn format
+
+# Run lint
+yarn lint
+```
+
+---
+
+### 🌱 Seeding the Database
+
+Seeder script is located at `src/migrations/seeder.ts`. You can use it to populate your PostgreSQL database with initial data (e.g. users, meetings).
+
+#### ▶️ Run the Seeder
+```bash
+yarn seed
+```
+> ⚠️ Make sure your PostgreSQL database is running and accessible (e.g., on `127.0.0.1:5432`)
+
+#### 🐳 If running inside Docker:
+```bash
+docker exec -it interview-meeting-management-service yarn seed
+```
+
+#### 🎉 Seed Result:
+Upon successful execution, a default admin user will be created:
+- Email: `admin@example.com`
+- Password: `123456`
 
 ---
 
@@ -79,21 +121,11 @@ done
 
 ---
 
-### 🧰 Useful Scripts (optional for local dev)
+## 📮 API Documentation
 
-```bash
-# Install dependencies
-yarn
+Swagger is available at:
 
-# Run dev mode (if not using docker)
-yarn start:dev
-
-# Format code
-yarn format
-
-# Run lint
-yarn lint
-```
+> [http://localhost:3000/api](http://localhost:3000/api)
 
 ---
 
@@ -119,32 +151,6 @@ src/
 ├── app.service.ts           # Root-level service
 └── main.ts                  # Application bootstrap
 ```
-
----
-
-### 🌱 Seeding the Database
-
-Seeder script is located at `src/migrations/seeder.ts`. You can use it to populate your PostgreSQL database with initial data (e.g. users, meetings).
-
-#### 📦 Install dependencies (if not yet)
-
-```bash
-yarn install
-```
-
-#### ▶️ Run the Seeder
-```bash
-yarn seed
-```
-> ℹ️ This assumes your `seeder.ts` bootstraps the NestJS `AppModule` and runs insert logic using a service or repository.
-
----
-
-## 📮 API Documentation
-
-Swagger is available at:
-
-> [http://localhost:3000/api](http://localhost:3000/api)
 
 ---
 

@@ -48,7 +48,8 @@ export class MeetingService {
   async updateMeeting(id: string, payload: UpdateMeetingDto) {
     const { archive, ...rest } = payload;
 
-    await this.meetingRepository.update(id, {
+    await this.meetingRepository.save({
+      id,
       ...rest,
       archived: archive,
     });
