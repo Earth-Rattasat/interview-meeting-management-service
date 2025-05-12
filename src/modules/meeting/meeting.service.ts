@@ -39,6 +39,7 @@ export class MeetingService {
       .leftJoinAndSelect('meeting.createdBy', 'createdBy')
       .leftJoinAndSelect('meeting.comments', 'comment')
       .leftJoinAndSelect('meeting.changeLogs', 'changeLog')
+      .leftJoinAndSelect('comment.createdBy', 'commentCreatedBy')
       .where('meeting.id = :id', { id })
       .addOrderBy('comment.createdAt', 'DESC')
       .addOrderBy('changeLog.createdAt', 'DESC')
